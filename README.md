@@ -1,2 +1,2 @@
 # daily-practice
-Keep my fingers are always active.
+Always keep my fingers and brain be actived.
