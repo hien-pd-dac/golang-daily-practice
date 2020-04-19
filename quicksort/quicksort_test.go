@@ -1,59 +1,84 @@
 package quicksort
 
-import "testing"
+import (
+	"testing"
+
+	"github.com/hienpdbk/daily-practice/slice"
+)
+
+type testData struct {
+	args []int
+	want []int
+}
 
 func TestQuickSort(t *testing.T) {
 	tests := []struct {
-		name string
-		args []int
-		want []int
+		name  string
+		datas []testData
 	}{
 		{
 			name: "empty array",
-			args: []int{},
-			want: []int{},
+			datas: []testData{
+				testData{
+					args: []int{},
+					want: []int{},
+				},
+			},
 		},
 		{
 			name: "only one element",
-			args: []int{1},
-			want: []int{1},
+			datas: []testData{
+				testData{
+					args: []int{1},
+					want: []int{1},
+				},
+			},
 		},
 		{
 			name: "2 elements",
-			args: []int{1, 2},
-			want: []int{1, 2},
+			datas: []testData{
+				testData{
+					args: []int{1, 2},
+					want: []int{1, 2},
+				},
+				testData{
+					args: []int{2, 1},
+					want: []int{1, 2},
+				},
+			},
 		},
 		{
-			name: "more than 2 elements & each element is not equal to the other",
-			args: []int{2, 1, 3, 8, 0},
-			want: []int{0, 1, 2, 3, 8},
-		},
-		{
-			name: "more than 2 elements & each element is not equal to the other",
-			args: []int{2, 1, 3, 8, 0, 3, 1, 7},
-			want: []int{0, 1, 1, 2, 3, 3, 7, 8},
+			name: "more than 2 elements",
+			datas: []testData{
+				testData{
+					args: []int{1, 2, 3, 4},
+					want: []int{1, 2, 3, 4},
+				},
+				testData{
+					args: []int{5, 4, 3, 2},
+					want: []int{2, 3, 4, 5},
+				},
+				testData{
+					args: []int{3, 8, 9, 1, 7},
+					want: []int{1, 3, 7, 8, 9},
+				},
+				testData{
+					args: []int{3, 8, 3, 1, 7},
+					want: []int{1, 3, 3, 7, 8},
+				},
+			},
 		},
 	}
 
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			got := Quicksort(tt.args)
-			if !isEqual(got, tt.want) {
-				t.Errorf("\ngot: %v\nget: %v\n", got, tt.want)
+	for _, tc := range tests {
+		t.Run(tc.name, func(t *testing.T) {
+			for _, data := range tc.datas {
+				sorter := NewSorter()
+				got := sorter.Sort(data.args)
+				if !slice.IsSame(got, data.want) {
+					t.Errorf("\ngot: %v\nget: %v\n", got, data.want)
+				}
 			}
 		})
 	}
-}
-
-func isEqual(source []int, target []int) bool {
-	sourceLen := len(source)
-	if sourceLen != len(target) {
-		return false
-	}
-	for i := 0; i < sourceLen; i++ {
-		if source[i] != target[i] {
-			return false
-		}
-	}
-	return true
 }

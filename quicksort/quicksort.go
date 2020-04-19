@@ -1,31 +1,43 @@
 package quicksort
 
-import "fmt"
+type Sorter interface {
+	Sort(arr []int) []int
+}
 
-func Quicksort(arr []int) []int {
+type sorter struct{}
+
+func NewSorter() Sorter {
+	return &sorter{}
+}
+
+func (s *sorter) Sort(arr []int) []int {
 	arrLen := len(arr)
 	copyArr := make([]int, arrLen)
 	copy(copyArr, arr)
-	quicksort(copyArr, 0, len(arr)-1)
+	sort(copyArr, 0, arrLen-1)
 	return copyArr
 }
 
-func quicksort(arr []int, fromIdx int, toIdx int) {
+func sort(arr []int, fromIdx int, toIdx int) {
+	// fmt.Printf("start quicksort: arr=%v, fromIdx=%d, toIdx=%d.\n", arr[fromIdx:toIdx+1], fromIdx, toIdx)
 	if fromIdx < 0 || toIdx < 0 || fromIdx > toIdx {
-		fmt.Printf("error: arr: %v, fromIdx:%d, toIdx:%d\n", arr, fromIdx, toIdx)
+		// fmt.Printf("error: arr: %v, fromIdx:%d, toIdx:%d\n", arr[fromIdx:toIdx+1], fromIdx, toIdx)
+		return
 	}
-	if (toIdx - fromIdx) <= 1 {
+	if (toIdx - fromIdx) < 1 {
+		// fmt.Printf("end quicksort: arr=%v, fromIdx=%d, toIdx=%d.\n", arr[fromIdx:toIdx+1], fromIdx, toIdx)
 		return
 	}
 	sortPartition := arr[fromIdx : toIdx+1]
 	pivotIdx := getPivot(sortPartition)
 	newPivotIdx := splitByPivot(sortPartition, pivotIdx)
 	if newPivotIdx > 0 {
-		quicksort(arr, fromIdx, newPivotIdx-1)
+		sort(sortPartition, 0, newPivotIdx-1)
 	}
-	if newPivotIdx < len(arr) {
-		quicksort(arr, newPivotIdx+1, toIdx)
+	if lenPart := len(sortPartition); newPivotIdx < lenPart-1 {
+		sort(sortPartition, newPivotIdx+1, lenPart-1)
 	}
+	// fmt.Printf("end quicksort: arr=%v, fromIdx=%d, toIdx=%d.\n", arr[fromIdx:toIdx+1], fromIdx, toIdx)
 }
 
 // getPivot returns the index of the selected pivot.
@@ -50,6 +62,7 @@ func splitByPivot(arr []int, pivotIdx int) (newPivotIdx int) {
 	if leftBoundIdx != lastIdx {
 		swap(arr, leftBoundIdx, lastIdx)
 	}
+
 	return leftBoundIdx
 }
 
@@ -59,15 +72,17 @@ func swap(arr []int, sourceIdx, destIdx int) {
 
 // returns the index of the element is greater than or equal pivot.
 // returns the last index of this array (the pivot's index) if does not exist that element.
-func getIdxOfTheEqualOrGreaterThanPivot(arr []int, fromIdx int) int {
+func getIdxOfTheEqualOrGreaterThanPivot(arr []int, fromIdx int) (resultIdx int) {
 	arrLen := len(arr)
 	pivot := arr[arrLen-1]
-	for i := fromIdx; i < len(arr); i++ {
+	resultIdx = arrLen - 1
+	for i := fromIdx; i < arrLen; i++ {
 		if arr[i] >= pivot {
-			return i
+			resultIdx = i
+			break
 		}
 	}
-	return arrLen - 1
+	return
 }
 
 // returns the index of the element is less than pivot.
