@@ -38,7 +38,7 @@ func TestQuickSort(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			got := Quicksort(tt.args)
-			if isEqual(got, tt.want) {
+			if !isEqual(got, tt.want) {
 				t.Errorf("\ngot: %v\nget: %v\n", got, tt.want)
 			}
 		})
