@@ -16,9 +16,15 @@ jobs:
             go env -w GO111MODULE="on"
 
       - run: 
+          name: dependencies
+          command: |
+            go get ./...
+
+      - run: 
           name: UT
           command: |
-            ./bash/test.sh
+            make test.ci
+            bash <(curl -s https://codecov.io/bash)
 
 
 workflows:
