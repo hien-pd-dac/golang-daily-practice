@@ -6,19 +6,20 @@ jobs:
   test:
     working_directory: /go/workspace
     docker:
-      # specify the version
       - image: circleci/golang:1.13
     steps:
       - checkout
 
-      - run: |
-          go env -w GO111MODULE="on"
+      - run: 
+          name: env
+          command: |
+            go env -w GO111MODULE="on"
 
-      # specify any bash command here prefixed with `run: `
-      - run: |
-          go test -v ./...
-      - run: |
-          ./bash/test.sh
+      - run: 
+          name: UT
+          command: |
+            ./bash/test.sh
+
 
 workflows:
   version: 2
