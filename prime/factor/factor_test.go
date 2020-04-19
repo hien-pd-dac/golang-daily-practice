@@ -28,6 +28,11 @@ func TestFactor(t *testing.T) {
 			want: []int{7},
 		},
 		{
+			name: "Expect not empty with non-prime args: 125.",
+			args: 125,
+			want: []int{5, 5, 5},
+		},
+		{
 			name: "Expect not empty with non-prime args: 84.",
 			args: 84,
 			want: []int{2, 2, 3, 7},

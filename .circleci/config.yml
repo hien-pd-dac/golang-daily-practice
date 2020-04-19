@@ -11,14 +11,16 @@ jobs:
       - checkout
 
       - run: 
-          name: env
+          name: dependencies
           command: |
             go env -w GO111MODULE="on"
+            go get ./...
 
       - run: 
           name: UT
           command: |
-            ./bash/test.sh
+            make test.ci
+            bash <(curl -s https://codecov.io/bash)
 
 
 workflows:
