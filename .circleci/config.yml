@@ -4,27 +4,27 @@
 version: 2
 jobs:
   test:
-    working_directory: /go/workspace
+    working_directory: ~/workspace
     docker:
       - image: circleci/golang:1.13
     steps:
       - checkout
 
       - run: 
-          name: dependencies
+          name: "Get the dependencies"
           command: |
             go env -w GO111MODULE="on"
             go get ./...
 
       - run: 
-          name: UT
+          name: "Run test coverage"
           command: |
             make test.ci
-            CODECOV_TOKEN=27f67867-6f9c-4cf8-bce5-173d7442ec26
-            bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
+            bash <(curl -s https://codecov.io/bash)
 workflows:
   version: 2
-  build:
+  test:
     jobs:
-    - test
+      - test
+
                 
