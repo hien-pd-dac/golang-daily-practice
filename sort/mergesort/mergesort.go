@@ -35,48 +35,26 @@ func merge(leftArr, rightArr []int) []int {
 	rightArrLen := len(rightArr)
 	resultLen := leftArrLen + rightArrLen
 	resultArr := make([]int, resultLen)
-	for i := 0; i < resultLen; i++ {
-		leftPopValue := popFirstElement(leftArr)
-		rightPopValue := popFirstElement(rightArr)
-		smallerMark := getSmaller(leftPopValue, rightPopValue)
-		if smallerMark == -1 {
-			log.Printf("error when 2 array are both empty in turn of loop: %d", i)
-			return []int{}
-		}
-		if smallerMark == 0 {
-			resultArr[i] = *leftPopValue
-			leftArr = leftArr[1:len(leftArr)]
+	resultIdx := 0
+	for !(len(leftArr) == 0 && len(rightArr) == 0) {
+		var smallerVal int
+		if len(leftArr) == 0 {
+			smallerVal, rightArr = popFirst(rightArr)
+		} else if len(rightArr) == 0 || rightArr[0] > leftArr[0] {
+			smallerVal, leftArr = popFirst(leftArr)
 		} else {
-			resultArr[i] = *rightPopValue
-			rightArr = rightArr[1:len(rightArr)]
+			smallerVal, rightArr = popFirst(rightArr)
 		}
+
+		resultArr[resultIdx] = smallerVal
+		resultIdx += 1
 	}
 	log.Printf("end merge: leftArr=%v, rightArr=%v., result=%v", leftArr, rightArr, resultArr)
 	return resultArr
 }
 
-// getSmaller return -1 if both of first and second are nil
-// return 0 if first is larger
-// rerturn 1 if second is larger
-func getSmaller(first, second *int) (mark int) {
-	if first == nil && second == nil {
-		return -1
-	}
-	if first == nil {
-		return 1
-	}
-	if second == nil {
-		return 0
-	}
-	if *first < *second {
-		return 0
-	}
-	return 1
-}
-
-func popFirstElement(arr []int) *int {
-	if len(arr) == 0 {
-		return nil
-	}
-	return &arr[0]
+// popFirst pops the first element of an array, return this value and new array
+func popFirst(source []int) (value int, result []int) {
+	value, result = source[0], source[1:]
+	return
 }
