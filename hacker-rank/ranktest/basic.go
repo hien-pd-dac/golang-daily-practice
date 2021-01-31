@@ -1,4 +1,4 @@
-package rank
+package ranktest
 
 func mostBalancedPartition(parent []int32, files_size []int32) int32 {
 	n := int32(len(parent))

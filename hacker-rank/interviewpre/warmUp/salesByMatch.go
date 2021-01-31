@@ -1,4 +1,4 @@
-package interviewpre
+package warmUp
 
 func sockMerchant(n int32, ar []int32) int32 {
 	sockIDAndTheNumOfSocksMap := genSockIDAndTheNumOfSocksMap(n, ar)

@@ -1,4 +1,4 @@
-package interviewpre
+package warmUp
 
 const (
 	UpStep   = "U"
