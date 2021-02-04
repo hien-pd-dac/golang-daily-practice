@@ -20,6 +20,14 @@ func TestRotLeft(t *testing.T) {
 			},
 			want: []int32{5, 1, 2, 3, 4},
 		},
+		{
+			desc: "Normal test.",
+			args: args{
+				a: []int32{1, 2, 3, 4, 5},
+				d: int32(5),
+			},
+			want: []int32{1, 2, 3, 4, 5},
+		},
 	}
 	for _, tc := range testCases {
 		t.Run(tc.desc, func(t *testing.T) {
