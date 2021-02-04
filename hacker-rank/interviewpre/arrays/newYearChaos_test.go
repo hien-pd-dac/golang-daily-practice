@@ -20,6 +20,11 @@ func TestMinimumBribes(t *testing.T) {
 			args: []int32{1, 2, 5, 3, 7, 8, 6, 4},
 			want: "7",
 		},
+		{
+			desc: "chaoTicTest3",
+			args: []int32{8, 2, 5, 3, 7, 1, 6, 4},
+			want: "Too chaotic",
+		},
 	}
 	for _, tc := range testCases {
 		t.Run(tc.desc, func(t *testing.T) {
