@@ -28,6 +28,14 @@ func TestTwoStrings(t *testing.T) {
 			},
 			want: "NO",
 		},
+		{
+			name: "",
+			args: args{
+				s1: "bbee",
+				s2: "cate",
+			},
+			want: "YES",
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
